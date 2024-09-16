@@ -9,10 +9,9 @@ const DefaultLayout = () => {
           return <Navigate to="/login" />;
      }
 
-     const onLogout = (ev) =>{
-          ev.preventDefault()
-          
-     }
+     const onLogout = (ev) => {
+          ev.preventDefault();
+     };
 
      return (
           <div id="defaultLayout">
@@ -20,22 +19,26 @@ const DefaultLayout = () => {
                     <Link to="/dashboard">Dashboard</Link>
                     <Link to="/users">users</Link>
                </aside>
-            <div className="content">
-               <header>
-                    <div>
+               <div className="content">
+                    <header>
+                         <div></div>
 
-                    </div>
+                         <div>
+                              {user.name}
+                              <a
+                                   href="#"
+                                   onClick={onLogout}
+                                   className="btn-logout"
+                              >
+                                   Logout
+                              </a>
+                         </div>
+                    </header>
 
-                    <div>
-                        {user.name}
-                        <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
-                    </div>
-               </header>
-
-               <main>
-                    <Outlet />
-               </main>
-            </div>
+                    <main>
+                         <Outlet />
+                    </main>
+               </div>
           </div>
      );
 };
