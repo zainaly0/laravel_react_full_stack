@@ -1,12 +1,20 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const DefaultLayout = () => {
-  return (
-    <div>
-      <Outlet />
-    </div>
-  )
-}
+     const { user, token } = useStateContext();
 
-export default DefaultLayout
+     if (!token) {
+          return <Navigate to="/login" />;
+     }
+
+     return (
+          <div>
+            default
+               <Outlet />
+          </div>
+     );
+};
+
+export default DefaultLayout;

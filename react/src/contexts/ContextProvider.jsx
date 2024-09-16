@@ -1,13 +1,12 @@
 import { createContext, useContext, useState } from "react";
 
 const StateContext = createContext({
-     currentUser: null,
+     user: null,
      token: null,
      setUser: () =>{},
      setToken: () => {}
 });
-
-export const ContectProvider = ({ children }) => {
+export const ContextProvider = ({ children }) => {
      const [user, setUser] = useState({});
      const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
 
@@ -20,7 +19,6 @@ export const ContectProvider = ({ children }) => {
                localStorage.removeItem("ACCESS_TOKEN", token);
           }
      };
-
      return (
           <StateContext.Provider
                value={{
