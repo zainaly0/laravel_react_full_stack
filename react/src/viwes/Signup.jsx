@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
@@ -8,11 +8,13 @@ const Signup = () => {
      const emailRef = useRef();
      const passwordRef = useRef();
      const passwordConfirmationRef = useRef();
-
      const { setUser, setToken } = useStateContext();
+     const [errors, setErrors] = useState(null);
 
      const onSubmit = (ev) => {
+          // debugger;
           ev.preventDefault();
+
           const payload = {
                name: nameRef.current.value,
                email: emailRef.current.value,
@@ -29,12 +31,13 @@ const Signup = () => {
                     setToken(data.token);
                })
                .catch((error) => {
-                const response = error.response
-                if(response && response.status == 422){
-                    // response.dta.errors 
-                    console.log(response.data.errors)
-                }
-
+                    // console.log(error)
+                    const response = error.response;
+                    if (response && response.status == 422) {
+                         // response.dta.errors
+                         // console.log(response.data.errors)
+                         setErrors(response.data.errors);
+                    }
                });
      };
 
@@ -43,6 +46,15 @@ const Signup = () => {
                <div className="form">
                     <form onSubmit={onSubmit} action="">
                          <h1 className="title">Signup for free</h1>
+
+                         {errors && (
+                              <div className="alert">
+                                   {Object.keys(errors).map((key) => {
+                                        <p key={key}>{errors[key][0]}</p>;
+                                   })}
+                              </div>
+                         )}
+
                          <input
                               ref={nameRef}
                               type="text"
@@ -57,11 +69,13 @@ const Signup = () => {
                               ref={passwordRef}
                               type="password"
                               placeholder="Password"
+                              autoComplete="new-password"
                          />
                          <input
                               ref={passwordConfirmationRef}
                               type="password"
                               placeholder="Password Confirmation"
+                              autoCapitalize="new-password"
                          />
                          <button className="btn btn-block">Signup</button>
                          <p className="message">
